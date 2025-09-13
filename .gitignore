@@ -1,0 +1,23 @@
+# --- X16 build artifacts ---
+*.o
+*.lst
+*.map
+*.prg
+*.bin
+*.lbl
+*.sym
+*.log
+*.tmp
+
+# --- Editor / OS junk ---
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- JetBrains IDE ---
+.idea/
+*.iml
+*.iws
+out/
