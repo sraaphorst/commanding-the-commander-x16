@@ -1,0 +1,38 @@
+.cpu _65c02
+#import "Libraries/constants.asm"
+#import "Libraries/petscii.asm"
+#import "Macros/macro.asm"
+
+BasicUpstart2(Main)
+
+Main:
+    // Note that this doesn't work because each character takes 16 bits:
+    // 0  -  7  Character index
+    // 8  - 11 Background colour
+    // 12 - 15 Foreground colour
+    addressRegisterByValue(
+        DATA_PORT0,
+        // The address we want to start at.
+        // Then add the offset to place it in the same place as before.
+        $1B000 + (15 * $100) + 22,
+        ADDRESS_STEP_1,
+        ADDRESS_DIR_FORWARD
+    )
+
+    ldy #0
+
+Looper:
+    lda Message,y
+    beq Exit        // If character is zero, then message has finished.
+    sta VERADATA0   // Poke the character onto the screen.
+    iny             // Increment pointer
+    bra Looper      // Loop
+
+Exit:
+    jmp *
+
+.encoding "screencode_mixed"
+
+Message:
+    .text "commander x16 says hello world"
+    .byte $00
